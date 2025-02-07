@@ -1,0 +1,28 @@
+<h1 class="title">Prueba Técnica</h1>
+<div class="container">
+
+  <div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="isLoading" class="loading">Cargando...</div>
+<button mat-raised-button class="button-9" (click)="openFactModal()">
+  Frase Aleatorio
+</button>
+<table *ngIf="!isLoading && !errorMessage">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Frase</th>
+      <th>Longitud</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let record of records">
+      <td>{{ record.id }}</td>
+      <td>{{ record.fact }}</td>
+      <td>{{ record.length }}</td>
+    </tr>
+  </tbody>
+</table>
+</div>

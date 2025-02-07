@@ -1,0 +1,40 @@
+services:
+  oracle10g:
+    image: dragonbest520/oracle-xe-10g
+    container_name: oracle10g
+    ports:
+      - "49160:22"
+      - "1521:1521"
+      - "49162:8080"
+    volumes:
+      - oracle_xe_10g_vol:/usr/lib/oracle
+    environment:
+      ORACLE_ALLOW_REMOTE: true
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+    depends_on:
+      - oracle10g
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle10g:1521/xe
+      - SPRING_DATASOURCE_USERNAME=system
+      - SPRING_DATASOURCE_PASSWORD=oracle
+      - CORS_ALLOWED_ORIGIN = "http://localhost:8081"
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "8081:80"
+    environment:
+      - API_URL = "api:8082/quotes/"
+
+volumes:
+  oracle_xe_10g_vol:
