@@ -1,7 +1,7 @@
 services:
   oracle10g:
     image: dragonbest520/oracle-xe-10g
-    container_name: oracle10g
+    container_name: database_quote
     ports:
       - "49160:22"
       - "1521:1521"
@@ -11,6 +11,7 @@ services:
     environment:
       ORACLE_ALLOW_REMOTE: true
   api:
+    container_name: "api_quote"
     build:
       context: ./api
       dockerfile: Dockerfile
@@ -26,6 +27,7 @@ services:
     restart: always
 
   frontend:
+    container_name: "frontend_quote"
     build:
       context: ./frontend
       dockerfile: Dockerfile
